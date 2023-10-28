@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Form from './Form';
+import Heading from './Heading';
 
 const StyledSidebar = styled.aside`
   grid-row: 1/ -1;
@@ -8,12 +9,14 @@ const StyledSidebar = styled.aside`
   border-right: 1px solid var(--color-grey-100);
   display: flex;
   flex-direction: column;
-  gap: 3.2rem;
+  align-items: center;
+  gap: 1rem;
 `;
 
 export default function Sidebar() {
   return (
     <StyledSidebar>
+      <Heading>create new section</Heading>
       <Form />
     </StyledSidebar>
   );

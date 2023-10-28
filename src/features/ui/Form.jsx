@@ -2,13 +2,14 @@
 import styled from 'styled-components';
 import { Input, InputContainer, ColorInput } from './Input';
 import { generateUniqueId } from '../../utils/uniqId';
+import CloseButton from './CloseButton';
 import Select from './Select';
 import { VerticalFormRow, HorizontalFormRow } from './FormRows';
 import { useDispatch } from 'react-redux';
 import {
   addChildToSection,
   createComponent,
-  updateOneSection,
+  editComponent,
 } from '../componentsSlice';
 import { useEffect, useState } from 'react';
 
@@ -56,8 +57,9 @@ const initialState = {
 export default function Form({
   id,
   addingChild,
-  updating,
+  updatingData,
   component,
+  onReset,
 }) {
   const [componentsStyles, setComponentsStyles] =
     useState(initialState);
@@ -91,7 +93,7 @@ export default function Form({
     setComponentsStyles(newState);
   };
 
-  const handleSideInputChange = (e, type) => {
+  const handlePaddingMarginChange = (e, type) => {
     const { name, value } = e.target;
 
     if (type !== 'padding' && type !== 'margin') {
@@ -103,10 +105,12 @@ export default function Form({
 
     if (type === 'padding') {
       updatedStyles.padding = { ...componentsStyles.padding };
-      updatedStyles.padding[name] = digitsOnly;
+      updatedStyles.padding[name] =
+        digitsOnly !== '' ? digitsOnly : '0';
     } else if (type === 'margin') {
       updatedStyles.margin = { ...componentsStyles.margin };
-      updatedStyles.margin[name] = digitsOnly;
+      updatedStyles.margin[name] =
+        digitsOnly !== '' ? digitsOnly : '0';
     }
 
     setComponentsStyles(updatedStyles);
@@ -115,11 +119,9 @@ export default function Form({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id && component && !addingChild) {
-      console.log('i want to edit component');
       const editedData = { ...componentsStyles };
-      dispatch(updateOneSection({ id, editedData }));
+      dispatch(editComponent({ id, editedData }));
     } else if (addingChild) {
-      console.log('i want to add children');
       const componentId = generateUniqueId();
       const data = { ...componentsStyles, id: componentId };
       dispatch(addChildToSection({ id, data }));
@@ -132,7 +134,7 @@ export default function Form({
 
   return (
     <StyledForm onSubmit={handleSubmit}>
-      {!updating && (
+      {!updatingData && (
         <>
           <label htmlFor="componentType">Select component type</label>
 
@@ -246,8 +248,9 @@ export default function Form({
               name="top"
               variation="padding"
               value={componentsStyles.padding.top}
-              placeholder="px"
-              onChange={(e) => handleSideInputChange(e, 'padding')}
+              onChange={(e) =>
+                handlePaddingMarginChange(e, 'padding')
+              }
             />
           </InputContainer>
           <InputContainer>
@@ -256,7 +259,9 @@ export default function Form({
               name="right"
               variation="padding"
               value={componentsStyles.padding.right}
-              onChange={(e) => handleSideInputChange(e, 'padding')}
+              onChange={(e) =>
+                handlePaddingMarginChange(e, 'padding')
+              }
             />
           </InputContainer>
           <InputContainer>
@@ -265,7 +270,9 @@ export default function Form({
               name="bottom"
               variation="padding"
               value={componentsStyles.padding.bottom}
-              onChange={(e) => handleSideInputChange(e, 'padding')}
+              onChange={(e) =>
+                handlePaddingMarginChange(e, 'padding')
+              }
             />
           </InputContainer>
           <InputContainer>
@@ -274,7 +281,9 @@ export default function Form({
               name="left"
               variation="padding"
               value={componentsStyles.padding.left}
-              onChange={(e) => handleSideInputChange(e, 'padding')}
+              onChange={(e) =>
+                handlePaddingMarginChange(e, 'padding')
+              }
             />
           </InputContainer>
         </HorizontalFormRow>
@@ -288,7 +297,7 @@ export default function Form({
               name="top"
               variation="padding"
               value={componentsStyles.margin.top}
-              onChange={(e) => handleSideInputChange(e, 'margin')}
+              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
             />
           </InputContainer>
           <InputContainer>
@@ -297,7 +306,7 @@ export default function Form({
               name="right"
               variation="padding"
               value={componentsStyles.margin.right}
-              onChange={(e) => handleSideInputChange(e, 'margin')}
+              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
             />
           </InputContainer>
           <InputContainer>
@@ -306,7 +315,7 @@ export default function Form({
               name="bottom"
               variation="padding"
               value={componentsStyles.margin.bottom}
-              onChange={(e) => handleSideInputChange(e, 'margin')}
+              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
             />
           </InputContainer>
           <InputContainer>
@@ -315,7 +324,7 @@ export default function Form({
               name="left"
               variation="padding"
               value={componentsStyles.margin.left}
-              onChange={(e) => handleSideInputChange(e, 'margin')}
+              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
             />
           </InputContainer>
         </HorizontalFormRow>
@@ -334,7 +343,21 @@ export default function Form({
         ))}
       </Select>
       {component ? (
-        <button>{addingChild ? 'Add Child' : 'Apply changes'}</button>
+        <>
+          <button
+            disabled={component.children.length >= 5 && addingChild}
+          >
+            {addingChild ? 'Add Child' : 'Apply changes'}
+          </button>
+          <CloseButton
+            onClick={(e) => {
+              e.preventDefault();
+              onReset();
+            }}
+          >
+            ⬅️
+          </CloseButton>
+        </>
       ) : (
         <button>
           {componentsStyles.componentType === ''

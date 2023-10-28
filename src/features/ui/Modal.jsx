@@ -2,13 +2,20 @@
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import Heading from './Heading';
 import Form from './Form';
 
 const StyledModal = styled.div`
+  grid-row: 1/ -1;
   margin: 0 auto;
+  width: 20rem;
   display: flex;
   flex-direction: column;
+
+  position: relative;
   gap: 0.5rem;
+  background-color: var(--color-grey-100);
+  padding: 0.5rem;
 `;
 
 const Modal = ({ onClose, component }) => {
@@ -16,27 +23,33 @@ const Modal = ({ onClose, component }) => {
   const [editData, setEditData] = useState(false);
   const [showToolBar, setShowToolBar] = useState(true);
   const { id } = useParams();
-  const handleCancelChanges = () => {
+  function resetToolBar() {
     setAddChild(false);
     setEditData(false);
     setShowToolBar(true);
+  }
+  const handleCancelChanges = () => {
+    resetToolBar();
     onClose();
   };
+  const maxChildrenLength = component.children.length === 5;
   return (
-    <StyledModal>
+    <StyledModal as="aside">
+      <Heading>toolkit</Heading>
       {showToolBar && (
         <>
-          {component?.componentType !== 'button' && (
-            <button
-              onClick={() => {
-                setEditData(false);
-                setAddChild(true);
-                setShowToolBar(false);
-              }}
-            >
-              Add Child
-            </button>
-          )}
+          {component?.componentType !== 'button' &&
+            !maxChildrenLength && (
+              <button
+                onClick={() => {
+                  setEditData(false);
+                  setAddChild(true);
+                  setShowToolBar(false);
+                }}
+              >
+                Add Child
+              </button>
+            )}
           <button
             onClick={() => {
               setEditData(true);
@@ -49,12 +62,24 @@ const Modal = ({ onClose, component }) => {
         </>
       )}
       {editData && (
-        <Form id={id} updating={editData} component={component} />
+        <Form
+          id={id}
+          updatingData={editData}
+          component={component}
+          onReset={resetToolBar}
+        />
       )}
       {addChild && (
-        <Form id={id} addingChild={addChild} component={component} />
+        <Form
+          id={id}
+          addingChild={addChild}
+          component={component}
+          onReset={resetToolBar}
+        />
       )}
-      <button onClick={handleCancelChanges}>Close</button>
+      {showToolBar && (
+        <button onClick={handleCancelChanges}>Close</button>
+      )}
     </StyledModal>
   );
 };

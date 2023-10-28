@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 
 const variations = {
   padding: css`
-    width: 20px;
+    width: 30px;
     height: 20px;
     background-color: var(--color-grey-100);
     border-color: var(--color-grey-700);
@@ -20,7 +20,7 @@ const Input = styled.input`
   border-radius: var(--border-radius-sm);
   font-weight: 600;
   font-size: large;
-  padding: 0.2rem 0.6rem;
+  padding: 0.2rem 0.5rem;
   box-shadow: var(--shadow-sm);
   color: inherit;
   ${(props) => variations[props.variation]}

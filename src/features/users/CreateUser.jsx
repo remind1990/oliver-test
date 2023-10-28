@@ -10,6 +10,7 @@ const StyledCreateUser = styled.form`
   flex-direction: column;
   gap: 1.2rem;
   max-width: 21rem;
+  align-items: center;
 `;
 function CreateUser() {
   const [username, setUsername] = useState('');
@@ -35,7 +36,7 @@ function CreateUser() {
         className="input mb-8 w-72"
       />
 
-      {username !== '' && (
+      {username.length > 3 && (
         <div>
           <button>Start Building your Layout</button>
         </div>

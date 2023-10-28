@@ -9,9 +9,9 @@ const StyledResult = styled.section`
   margin: 0 auto;
 `;
 const StyledExample = styled.div`
-  width: 300px;
-  height: 200px;
-  background: red;
+  width: 250px;
+  height: 150px;
+  background: var(--color-green-100);
   padding: 2rem;
 `;
 export default function Result() {
