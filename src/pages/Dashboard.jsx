@@ -8,9 +8,13 @@ const StyledDashboard = styled.div`
   grid-template-rows: auto 1fr;
   height: 100vh;
   @media (max-width: 767px) {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 2rem;
+    overflow-y: scroll;
   }
 `;
 

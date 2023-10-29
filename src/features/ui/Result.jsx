@@ -9,7 +9,9 @@ const StyledResult = styled.section`
   margin: 0 auto;
   @media (max-width: 767px) {
     width: 100%;
-    grid-row: 2;
+    overflow: auto;
+    overflow-y: auto;
+    flex-basis: 50%;
   }
 `;
 

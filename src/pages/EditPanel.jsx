@@ -16,15 +16,21 @@ const StyledDiv = styled.div`
   grid-template-rows: auto 1fr;
   background-color: var(--color-indigo-100);
   @media (max-width: 767px) {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 2rem;
+    overflow-y: scroll;
   }
 `;
 const DisplayComonentPanel = styled.div`
   grid-row: 1;
   @media (max-width: 767px) {
-    grid-row: 2;
+    overflow: auto;
+    overflow-y: auto;
+    flex-basis: 50%;
   }
 `;
 const EditPanel = () => {

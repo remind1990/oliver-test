@@ -8,13 +8,20 @@ const StyledAppLayout = styled.div`
   margin: 0 auto;
   overflow-y: auto;
 `;
+const Main = styled.div`
+  @media (max-width: 767px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+`;
 
 export default function AppLayout() {
   return (
     <StyledAppLayout>
-      <main>
+      <Main>
         <Outlet />
-      </main>
+      </Main>
     </StyledAppLayout>
   );
 }

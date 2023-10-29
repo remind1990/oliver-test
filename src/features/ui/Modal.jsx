@@ -17,7 +17,9 @@ const StyledModal = styled.div`
   padding: 0.5rem;
   height: fit-content;
   @media (max-width: 767px) {
-    grid-row: 1/ 1;
+    overflow: auto;
+    overflow-y: auto;
+    flex-basis: 50%;
   }
 `;
 
