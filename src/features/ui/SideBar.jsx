@@ -12,6 +12,9 @@ const StyledSidebar = styled.aside`
   align-items: center;
   gap: 1rem;
   height: fit-content;
+  @media (max-width: 767px) {
+    grid-row: 1/ 1;
+  }
 `;
 
 export default function Sidebar() {

@@ -29,6 +29,7 @@ const Input = styled.input`
   color: inherit;
   ${(props) => variations[props.variation]}
 `;
+
 Input.defaultProps = {
   variation: '',
   size: '',
@@ -42,7 +43,15 @@ const InputContainer = styled.div`
     position: absolute;
     top: 50%;
     transform: translateY(-50%) translateX(-110%);
-    color: inherit;
+    color: gray;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+  }
+
+  &:hover::after,
+  &:focus::after,
+  &:active::after {
+    opacity: 0;
   }
 `;
 

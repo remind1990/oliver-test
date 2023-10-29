@@ -15,6 +15,7 @@ import {
 import { DiDropbox } from 'react-icons/di';
 import { GiPowerButton } from 'react-icons/gi';
 import IconButton from './IconButton';
+import Accordion from './Accordion';
 
 const StyledForm = styled.form`
   display: flex;
@@ -203,52 +204,54 @@ export default function Form({
           </Select>
         </>
       )}
-      <VerticalFormRow>
-        <label htmlFor="width">Width</label>
-        <HorizontalFormRow>
-          <InputContainer>
-            <Input
+      <Accordion title="Size settings">
+        <VerticalFormRow>
+          <label htmlFor="width">Width</label>
+          <HorizontalFormRow>
+            <InputContainer>
+              <Input
+                id="width"
+                type="text"
+                name="width"
+                value={componentsStyles.width}
+                onChange={handleInputChange}
+              />
+            </InputContainer>
+            <input
               id="width"
-              type="text"
+              type="range"
               name="width"
+              min="0"
+              max="1000"
               value={componentsStyles.width}
               onChange={handleInputChange}
             />
-          </InputContainer>
-          <input
-            id="width"
-            type="range"
-            name="width"
-            min="0"
-            max="1000"
-            value={componentsStyles.width}
-            onChange={handleInputChange}
-          />
-        </HorizontalFormRow>
-      </VerticalFormRow>
-      <VerticalFormRow>
-        <label htmlFor="height">Height</label>
-        <HorizontalFormRow>
-          <InputContainer>
-            <Input
+          </HorizontalFormRow>
+        </VerticalFormRow>
+        <VerticalFormRow>
+          <label htmlFor="height">Height</label>
+          <HorizontalFormRow>
+            <InputContainer>
+              <Input
+                id="height"
+                type="text"
+                name="height"
+                value={componentsStyles.height}
+                onChange={handleInputChange}
+              />
+            </InputContainer>
+            <input
               id="height"
-              type="text"
+              type="range"
               name="height"
+              min="0"
+              max="1000"
               value={componentsStyles.height}
               onChange={handleInputChange}
             />
-          </InputContainer>
-          <input
-            id="height"
-            type="range"
-            name="height"
-            min="0"
-            max="1000"
-            value={componentsStyles.height}
-            onChange={handleInputChange}
-          />
-        </HorizontalFormRow>
-      </VerticalFormRow>
+          </HorizontalFormRow>
+        </VerticalFormRow>
+      </Accordion>
       <HorizontalFormRow>
         <label htmlFor="innerText">Text</label>
         <Input
@@ -293,14 +296,15 @@ export default function Form({
           </option>
         ))}
       </Select>
-      {spacingInputs.map((row) =>
-        renderSpacingInputs(
-          row,
-          componentsStyles,
-          handleSpacingChange
-        )
-      )}
-
+      <Accordion title="Spacing Settings">
+        {spacingInputs.map((row) =>
+          renderSpacingInputs(
+            row,
+            componentsStyles,
+            handleSpacingChange
+          )
+        )}
+      </Accordion>
       <label htmlFor="positionType">Select component position</label>
       <Select
         id="positionType"

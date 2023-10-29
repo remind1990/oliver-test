@@ -18,6 +18,7 @@ const StyledDiv = styled.div`
   @media (max-width: 767px) {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    gap: 1rem;
   }
 `;
 const DisplayComonentPanel = styled.div`
