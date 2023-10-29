@@ -36,12 +36,10 @@ const DisplayComonentPanel = styled.div`
 `;
 const AnimatedEditPanel = motion(StyledDiv);
 const EditPanel = () => {
-  const [isModalVisible, setModalVisibility] = useState(true);
   const { id } = useParams();
   const component = useSelector(getComponentById(id));
   const navigate = useNavigate();
   const closeModal = () => {
-    setModalVisibility(false);
     navigate('/dashboard');
   };
 
@@ -58,9 +56,7 @@ const EditPanel = () => {
         opacity: 0,
       }}
     >
-      {isModalVisible && (
-        <Modal onClose={closeModal} component={component} />
-      )}
+      <Modal onClose={closeModal} component={component} />
       <DisplayComonentPanel>
         <ReusableComponent {...component} isEditing={true} />
       </DisplayComonentPanel>
