@@ -11,6 +11,7 @@ const StyledSidebar = styled.aside`
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  height: fit-content;
 `;
 
 export default function Sidebar() {

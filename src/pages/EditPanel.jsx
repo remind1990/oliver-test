@@ -15,6 +15,16 @@ const StyledDiv = styled.div`
   grid-template-columns: 22rem 1fr;
   grid-template-rows: auto 1fr;
   background-color: var(--color-indigo-100);
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+`;
+const DisplayComonentPanel = styled.div`
+  grid-row: 1;
+  @media (max-width: 767px) {
+    grid-row: 2;
+  }
 `;
 const EditPanel = () => {
   const [isModalVisible, setModalVisibility] = useState(true);
@@ -32,9 +42,9 @@ const EditPanel = () => {
       {isModalVisible && (
         <Modal onClose={closeModal} component={component} />
       )}
-      {component && (
+      <DisplayComonentPanel>
         <ReusableComponent {...component} isEditing={true} />
-      )}
+      </DisplayComonentPanel>
     </StyledDiv>
   );
 };

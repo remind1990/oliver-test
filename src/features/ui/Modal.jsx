@@ -11,11 +11,14 @@ const StyledModal = styled.div`
   width: 20rem;
   display: flex;
   flex-direction: column;
-
   position: relative;
   gap: 0.5rem;
   background-color: var(--color-grey-100);
   padding: 0.5rem;
+  height: fit-content;
+  @media (max-width: 767px) {
+    grid-row: 1/ 1;
+  }
 `;
 
 const Modal = ({ onClose, component }) => {

@@ -34,7 +34,7 @@ const StyledReusableComponent = styled.div`
     transition: all 0.5s;
   }
   ${(props) =>
-    !props.isEditing &&
+    props.editing === 'false' &&
     css`
       &:hover {
         border: 2px dashed;
@@ -101,7 +101,7 @@ export default function ReusableComponent({
         padding={padding}
         margin={margin}
         onClick={handleClick}
-        isEditing={isEditing}
+        editing={isEditing ? 'true' : 'false'}
       >
         {innerText && <p>{innerText}</p>}
         {childrenWithData.length > 0 &&

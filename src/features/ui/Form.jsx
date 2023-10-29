@@ -14,6 +14,7 @@ import {
 } from '../componentsSlice';
 import { DiDropbox } from 'react-icons/di';
 import { GiPowerButton } from 'react-icons/gi';
+import IconButton from './IconButton';
 
 const StyledForm = styled.form`
   display: flex;
@@ -56,8 +57,8 @@ const initialState = {
   children: [],
 };
 
-const renderInput = (name, value, onChange, type) => (
-  <InputContainer>
+const renderInput = (name, value, onChange, type, key) => (
+  <InputContainer key={key}>
     <Input
       type="text"
       name={name}
@@ -75,12 +76,13 @@ const renderSpacingInputs = (type, componentsStyles, callBack) => (
   <HorizontalFormRow key={type}>
     <label>{type}</label>
     <HorizontalFormRow>
-      {spacingTypes.map((spacingType) =>
+      {spacingTypes.map((spacingType, index) =>
         renderInput(
           spacingType,
           componentsStyles[type][spacingType],
           (e) => callBack(e, type),
-          'padding'
+          'padding',
+          index
         )
       )}
     </HorizontalFormRow>
@@ -329,24 +331,11 @@ export default function Form({
           </CloseButton>
         </>
       ) : (
-        <button>
-          {componentsStyles.componentType === '' ? (
-            'Create Element'
-          ) : (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-evenly',
-              }}
-            >
-              Create {componentsStyles.componentType}
-              <span style={{ fontSize: '1.5rem' }}>
-                {elementIcon}
-              </span>
-            </div>
-          )}
-        </button>
+        <IconButton
+          text={`Create ${componentsStyles.componentType}`}
+          icon={elementIcon}
+          iconSize="1.5rem"
+        />
       )}
     </StyledForm>
   );
