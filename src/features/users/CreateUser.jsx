@@ -14,8 +14,19 @@ const StyledCreateUser = styled.form`
 `;
 function CreateUser() {
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const handleUsernameChange = (e) => {
+    const newUsername = e.target.value;
+    setUsername(newUsername);
+    if (newUsername.length < 3) {
+      setError('Username must be at least 3 characters long');
+    } else {
+      setError('');
+    }
+  };
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -29,12 +40,14 @@ function CreateUser() {
       <p>👋 Welcome! Please enter your name to start:</p>
 
       <Input
+        variation="innerText"
         type="text"
         placeholder="Your full name"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={handleUsernameChange}
         className="input mb-8 w-72"
       />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {username.length > 3 && (
         <div>

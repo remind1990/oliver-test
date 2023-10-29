@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const VerticalFormRow = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: fit-content;
+  min-width: fit-content;
   gap: 0.2rem;
 `;
 const HorizontalFormRow = styled.div`

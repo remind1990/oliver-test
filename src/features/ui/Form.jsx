@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Input, InputContainer, ColorInput } from './Input';
 import { generateUniqueId } from '../../utils/uniqId';
@@ -11,7 +12,8 @@ import {
   createComponent,
   editComponent,
 } from '../componentsSlice';
-import { useEffect, useState } from 'react';
+import { DiDropbox } from 'react-icons/di';
+import { GiPowerButton } from 'react-icons/gi';
 
 const StyledForm = styled.form`
   display: flex;
@@ -54,6 +56,37 @@ const initialState = {
   children: [],
 };
 
+const renderInput = (name, value, onChange, type) => (
+  <InputContainer>
+    <Input
+      type="text"
+      name={name}
+      variation={type}
+      value={value}
+      onChange={onChange}
+    />
+  </InputContainer>
+);
+
+const spacingInputs = ['padding', 'margin'];
+const spacingTypes = ['top', 'right', 'bottom', 'left'];
+
+const renderSpacingInputs = (type, componentsStyles, callBack) => (
+  <HorizontalFormRow key={type}>
+    <label>{type}</label>
+    <HorizontalFormRow>
+      {spacingTypes.map((spacingType) =>
+        renderInput(
+          spacingType,
+          componentsStyles[type][spacingType],
+          (e) => callBack(e, type),
+          'padding'
+        )
+      )}
+    </HorizontalFormRow>
+  </HorizontalFormRow>
+);
+
 export default function Form({
   id,
   addingChild,
@@ -70,14 +103,30 @@ export default function Form({
     setComponentsStyles(component);
   }, [component, id, addingChild]);
 
+  const elementIcon =
+    componentsStyles?.componentType === 'div' ? (
+      <DiDropbox />
+    ) : (
+      <GiPowerButton />
+    );
+
   const handleInputChange = (e) => {
     const { value, name } = e.target;
     let filteredValue = value;
     if (name !== 'innerText') {
       filteredValue = value.replace(/\D/g, '').trim();
+      const newState = {
+        ...componentsStyles,
+        [name]: filteredValue !== '' ? filteredValue : '100',
+      };
+      setComponentsStyles(newState);
+    } else {
+      const newState = {
+        ...componentsStyles,
+        [name]: value,
+      };
+      setComponentsStyles(newState);
     }
-    const newState = { ...componentsStyles, [name]: filteredValue };
-    setComponentsStyles(newState);
   };
 
   const handleColorChange = (e) => {
@@ -93,7 +142,7 @@ export default function Form({
     setComponentsStyles(newState);
   };
 
-  const handlePaddingMarginChange = (e, type) => {
+  const handleSpacingChange = (e, type) => {
     const { name, value } = e.target;
 
     if (type !== 'padding' && type !== 'margin') {
@@ -119,8 +168,8 @@ export default function Form({
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id && component && !addingChild) {
-      const editedData = { ...componentsStyles };
-      dispatch(editComponent({ id, editedData }));
+      const updatedComponentData = { ...componentsStyles };
+      dispatch(editComponent({ id, data: updatedComponentData }));
     } else if (addingChild) {
       const componentId = generateUniqueId();
       const data = { ...componentsStyles, id: componentId };
@@ -154,58 +203,61 @@ export default function Form({
       )}
       <VerticalFormRow>
         <label htmlFor="width">Width</label>
-        <InputContainer>
-          <Input
+        <HorizontalFormRow>
+          <InputContainer>
+            <Input
+              id="width"
+              type="text"
+              name="width"
+              value={componentsStyles.width}
+              onChange={handleInputChange}
+            />
+          </InputContainer>
+          <input
             id="width"
-            type="text"
+            type="range"
             name="width"
+            min="0"
+            max="1000"
             value={componentsStyles.width}
             onChange={handleInputChange}
           />
-        </InputContainer>
-        <input
-          id="width"
-          type="range"
-          name="width"
-          min="0"
-          max="1000"
-          value={componentsStyles.width}
-          onChange={handleInputChange}
-        />
+        </HorizontalFormRow>
       </VerticalFormRow>
       <VerticalFormRow>
         <label htmlFor="height">Height</label>
-        <InputContainer>
-          <Input
+        <HorizontalFormRow>
+          <InputContainer>
+            <Input
+              id="height"
+              type="text"
+              name="height"
+              value={componentsStyles.height}
+              onChange={handleInputChange}
+            />
+          </InputContainer>
+          <input
             id="height"
-            type="text"
+            type="range"
             name="height"
+            min="0"
+            max="1000"
             value={componentsStyles.height}
             onChange={handleInputChange}
           />
-        </InputContainer>
-        <input
-          id="height"
-          type="range"
-          name="height"
-          min="0"
-          max="1000"
-          value={componentsStyles.height}
+        </HorizontalFormRow>
+      </VerticalFormRow>
+      <HorizontalFormRow>
+        <label htmlFor="innerText">Text</label>
+        <Input
+          variation="innerText"
+          id="innerText"
+          type="text"
+          name="innerText"
+          value={componentsStyles.innerText}
           onChange={handleInputChange}
         />
-      </VerticalFormRow>
-      {componentsStyles.componentType === 'button' && (
-        <VerticalFormRow>
-          <label htmlFor="innerText">Text</label>
-          <Input
-            id="innerText"
-            type="text"
-            name="innerText"
-            value={componentsStyles.innerText}
-            onChange={handleInputChange}
-          />
-        </VerticalFormRow>
-      )}
+      </HorizontalFormRow>
       <HorizontalFormRow>
         <label htmlFor="backgroundColor">Background Color</label>
         <ColorInput
@@ -239,96 +291,14 @@ export default function Form({
           </option>
         ))}
       </Select>
-      <HorizontalFormRow>
-        <label>Padding</label>
-        <HorizontalFormRow>
-          <InputContainer>
-            <Input
-              type="text"
-              name="top"
-              variation="padding"
-              value={componentsStyles.padding.top}
-              onChange={(e) =>
-                handlePaddingMarginChange(e, 'padding')
-              }
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              type="text"
-              name="right"
-              variation="padding"
-              value={componentsStyles.padding.right}
-              onChange={(e) =>
-                handlePaddingMarginChange(e, 'padding')
-              }
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              type="text"
-              name="bottom"
-              variation="padding"
-              value={componentsStyles.padding.bottom}
-              onChange={(e) =>
-                handlePaddingMarginChange(e, 'padding')
-              }
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              type="text"
-              name="left"
-              variation="padding"
-              value={componentsStyles.padding.left}
-              onChange={(e) =>
-                handlePaddingMarginChange(e, 'padding')
-              }
-            />
-          </InputContainer>
-        </HorizontalFormRow>
-      </HorizontalFormRow>
-      <HorizontalFormRow>
-        <label>Margin</label>
-        <HorizontalFormRow>
-          <InputContainer>
-            <Input
-              type="text"
-              name="top"
-              variation="padding"
-              value={componentsStyles.margin.top}
-              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              type="text"
-              name="right"
-              variation="padding"
-              value={componentsStyles.margin.right}
-              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              type="text"
-              name="bottom"
-              variation="padding"
-              value={componentsStyles.margin.bottom}
-              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
-            />
-          </InputContainer>
-          <InputContainer>
-            <Input
-              type="text"
-              name="left"
-              variation="padding"
-              value={componentsStyles.margin.left}
-              onChange={(e) => handlePaddingMarginChange(e, 'margin')}
-            />
-          </InputContainer>
-        </HorizontalFormRow>
-      </HorizontalFormRow>
+      {spacingInputs.map((row) =>
+        renderSpacingInputs(
+          row,
+          componentsStyles,
+          handleSpacingChange
+        )
+      )}
+
       <label htmlFor="positionType">Select component position</label>
       <Select
         id="positionType"
@@ -360,9 +330,22 @@ export default function Form({
         </>
       ) : (
         <button>
-          {componentsStyles.componentType === ''
-            ? 'Create Element'
-            : `Create ${componentsStyles.componentType}`}{' '}
+          {componentsStyles.componentType === '' ? (
+            'Create Element'
+          ) : (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              Create {componentsStyles.componentType}
+              <span style={{ fontSize: '1.5rem' }}>
+                {elementIcon}
+              </span>
+            </div>
+          )}
         </button>
       )}
     </StyledForm>

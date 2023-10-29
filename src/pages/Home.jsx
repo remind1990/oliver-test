@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import TypewriterText from '../features/ui/TypeWritterText';
 import CreateUser from '../features/users/CreateUser';
 
 const StyledHome = styled.div`
@@ -9,19 +10,13 @@ const StyledHome = styled.div`
   justify-content: center;
   align-items: center;
 `;
-const StyledH1 = styled.h1`
-  text-align: center;
-`;
+
 function Home() {
   const username = useSelector((state) => state.user.username);
   const navigate = useNavigate();
   return (
     <StyledHome>
-      <StyledH1>
-        Build your own layout components
-        <br />
-        Easy to create and use
-      </StyledH1>
+      <TypewriterText text="Build your own layout components. Easy to create and use" />
 
       {username === '' ? (
         <CreateUser />

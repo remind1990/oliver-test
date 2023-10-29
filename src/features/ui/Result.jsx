@@ -8,21 +8,13 @@ const StyledResult = styled.section`
   width: 90%;
   margin: 0 auto;
 `;
-const StyledExample = styled.div`
-  width: 250px;
-  height: 150px;
-  background: var(--color-green-100);
-  padding: 2rem;
-`;
+
 export default function Result() {
   const components = useSelector(
     (state) => state.components.sections
   );
   return (
     <StyledResult>
-      <StyledExample>
-        <button>Example</button>
-      </StyledExample>
       {components.length > 0 &&
         components.map((component) => (
           <ReusableComponent

@@ -14,13 +14,12 @@ const componentsSlice = createSlice({
       state.components.push(action.payload);
     },
     editComponent(state, action) {
-      const { id, editedData } = action.payload;
-
+      const { id, data } = action.payload;
       state.sections = state.sections.map((item) =>
-        item.id === id ? { ...item, ...editedData } : item
+        item.id === id ? { ...item, ...data } : item
       );
       state.components = state.components.map((item) =>
-        item.id === id ? { ...item, ...editedData } : item
+        item.id === id ? { ...item, ...data } : item
       );
     },
     addChildToSection(state, action) {

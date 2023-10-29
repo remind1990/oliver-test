@@ -22,6 +22,33 @@ const StyledReusableComponent = styled.div`
   margin: ${(props) =>
     `${props.margin.top}px ${props.margin.right}px ${props.margin.bottom}px ${props.margin.left}px`};
   box-sizing: border-box;
+  border: 1px solid transparent;
+  transition: all 0.3s;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.5s;
+  }
+  ${(props) =>
+    !props.isEditing &&
+    css`
+      &:hover {
+        border: 2px dashed;
+        border-color: var(
+          --color-grey-400
+        ); /* Use proper property name */
+        transform: scale(1.1);
+        position: relative;
+        &::before {
+          content: '📝';
+          opacity: 1;
+        }
+      }
+    `};
 `;
 
 export default function ReusableComponent({
@@ -41,6 +68,7 @@ export default function ReusableComponent({
 }) {
   const navigate = useNavigate();
   const [childrenWithData, setChildrenWithData] = useState([]);
+
   const allComponents = useSelector(
     (state) => state.components.components
   );
@@ -52,17 +80,6 @@ export default function ReusableComponent({
     setChildrenWithData(arrayOfChildrenWithData);
   }, [allComponents, children]);
 
-  const styles = {
-    display,
-    width: width + 'px',
-    height: height + 'px',
-    position,
-    backgroundColor,
-    color: textColor,
-    padding: `${padding.top}px ${padding.right}px ${padding.bottom}px ${padding.left}px`,
-    margin: `${margin.top}px ${margin.right}px ${margin.bottom}px ${margin.left}px`,
-    boxSizing: 'border-box',
-  };
   const handleClick = (e) => {
     if (isEditing) {
       e.preventDefault();
@@ -84,7 +101,9 @@ export default function ReusableComponent({
         padding={padding}
         margin={margin}
         onClick={handleClick}
+        isEditing={isEditing}
       >
+        {innerText && <p>{innerText}</p>}
         {childrenWithData.length > 0 &&
           childrenWithData.map((child, index) => {
             return (
@@ -111,10 +130,10 @@ export default function ReusableComponent({
         color={textColor}
         padding={padding}
         margin={margin}
-        style={styles}
+        isEditing={isEditing}
         onClick={handleClick}
       >
-        {innerText}
+        {innerText ? innerText : componentType}
       </StyledReusableComponent>
     );
 }

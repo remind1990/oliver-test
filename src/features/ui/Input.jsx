@@ -13,8 +13,12 @@ const variations = {
       background-color: var(--color-grey-300);
     }
   `,
+  innerText: css`
+    max-width: 10rem;
+  `,
 };
 const Input = styled.input`
+  max-width: 3rem;
   border: 1px solid #fff3;
   background-color: #fff7;
   border-radius: var(--border-radius-sm);
