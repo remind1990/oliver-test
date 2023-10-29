@@ -4,7 +4,9 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Heading from './Heading';
 import Form from './Form';
-
+import { IoIosAddCircle } from 'react-icons/io';
+import { AiFillEdit } from 'react-icons/ai';
+import IconButton from './IconButton';
 const StyledModal = styled.div`
   grid-row: 1/ -1;
   margin: 0 auto;
@@ -45,25 +47,25 @@ const Modal = ({ onClose, component }) => {
         <>
           {component?.componentType !== 'button' &&
             !maxChildrenLength && (
-              <button
+              <IconButton
                 onClick={() => {
                   setEditData(false);
                   setAddChild(true);
                   setShowToolBar(false);
                 }}
-              >
-                Add Child
-              </button>
+                text="Add Child"
+                icon={<IoIosAddCircle />}
+              />
             )}
-          <button
+          <IconButton
             onClick={() => {
               setEditData(true);
               setAddChild(false);
               setShowToolBar(false);
             }}
-          >
-            Edit Component
-          </button>
+            text="Edit Component"
+            icon={<AiFillEdit />}
+          />
         </>
       )}
       {editData && (

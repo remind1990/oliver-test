@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const AccordionSection = styled.div`
@@ -24,13 +24,7 @@ const AccordionContent = styled.div`
 `;
 
 const Accordion = ({ title, children }) => {
-  const [isOpen, setIsOpen] = useState(true);
-  useEffect(() => {
-    const screenWidth = window.innerWidth;
-    if (screenWidth <= 768) {
-      setIsOpen(false);
-    }
-  }, []);
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);

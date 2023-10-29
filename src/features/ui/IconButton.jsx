@@ -9,9 +9,16 @@ const StyledButton = styled.button`
   height: ${(props) => props.height || 'auto'};
 `;
 
-const IconButton = ({ width, height, text, icon, iconSize }) => {
+const IconButton = ({
+  width,
+  height,
+  text,
+  icon,
+  iconSize,
+  onClick,
+}) => {
   return (
-    <StyledButton width={width} height={height}>
+    <StyledButton width={width} height={height} onClick={onClick}>
       {text}
       <span style={{ fontSize: iconSize, marginLeft: '5px' }}>
         {icon}

@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -33,6 +34,7 @@ const DisplayComonentPanel = styled.div`
     flex-basis: 50%;
   }
 `;
+const AnimatedEditPanel = motion(StyledDiv);
 const EditPanel = () => {
   const [isModalVisible, setModalVisibility] = useState(true);
   const { id } = useParams();
@@ -45,14 +47,24 @@ const EditPanel = () => {
 
   if (!id || !component) return <PageNotFound />;
   return (
-    <StyledDiv>
+    <AnimatedEditPanel
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+      }}
+      exit={{
+        opacity: 0,
+      }}
+    >
       {isModalVisible && (
         <Modal onClose={closeModal} component={component} />
       )}
       <DisplayComonentPanel>
         <ReusableComponent {...component} isEditing={true} />
       </DisplayComonentPanel>
-    </StyledDiv>
+    </AnimatedEditPanel>
   );
 };
 

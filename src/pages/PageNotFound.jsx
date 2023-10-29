@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 
 import { useMoveBack } from '../hooks/useMoveBack';
@@ -26,19 +27,25 @@ const Box = styled.div`
     color: black;
   }
 `;
-
+const AnimatePageNotFound = motion(StyledPageNotFound);
 function PageNotFound() {
   const moveBack = useMoveBack();
 
   return (
-    <StyledPageNotFound>
+    <AnimatePageNotFound
+      initial={{
+        opacity: 0,
+      }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Box>
         <h1>The page you are looking could not be found 😢</h1>
         <button onClick={moveBack} size="large">
           &larr; Go back
         </button>
       </Box>
-    </StyledPageNotFound>
+    </AnimatePageNotFound>
   );
 }
 

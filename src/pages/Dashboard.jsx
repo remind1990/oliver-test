@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import Sidebar from '../features/ui/SideBar';
 import Result from '../features/ui/Result';
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 const StyledDashboard = styled.div`
   display: grid;
   grid-template-columns: 22rem 1fr;
@@ -17,11 +18,25 @@ const StyledDashboard = styled.div`
     overflow-y: scroll;
   }
 `;
-
+const AnimatedDashboard = motion(StyledDashboard);
 export default function Dashboard() {
   const [showSideBar, setShowSideBar] = useState(true);
   return (
-    <StyledDashboard>
+    <AnimatedDashboard
+      initial={{
+        opacity: 0,
+      }}
+      animate={{
+        opacity: 1,
+        transition: {
+          duration: 1,
+          delay: 0.5,
+        },
+      }}
+      exit={{
+        opacity: 0,
+      }}
+    >
       {showSideBar && (
         <Sidebar
           showSideBar={showSideBar}
@@ -29,6 +44,6 @@ export default function Dashboard() {
         />
       )}
       <Result />
-    </StyledDashboard>
+    </AnimatedDashboard>
   );
 }

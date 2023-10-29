@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import styled from 'styled-components';
@@ -15,13 +16,19 @@ const Main = styled.div`
     align-items: center;
   }
 `;
-
+const AnimatedAppLayout = motion(StyledAppLayout);
 export default function AppLayout() {
   return (
-    <StyledAppLayout>
+    <AnimatedAppLayout
+      initial={{
+        opacity: 0,
+      }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <Main>
         <Outlet />
       </Main>
-    </StyledAppLayout>
+    </AnimatedAppLayout>
   );
 }
