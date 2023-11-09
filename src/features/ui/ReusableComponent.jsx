@@ -12,8 +12,8 @@ const StyledReusableComponent = styled.div`
     css`
       flex-wrap: wrap;
     `}
-  width: ${(props) => props.width}px;
-  height: ${(props) => props.height}px;
+  width: ${(props) => props.width === 'auto' ? 'auto' : props.width + 'px'};
+  min-height: ${(props) => props.minheight === 'auto' ? 'auto' : props.minheight + 'px'};
   position: ${(props) => props.position};
   background-color: ${(props) => props.backgroundcolor};
   color: ${(props) => props.color};
@@ -40,7 +40,7 @@ const StyledReusableComponent = styled.div`
         border: 2px dashed;
         border-color: var(
           --color-grey-400
-        ); /* Use proper property name */
+        ); 
         transform: scale(1.1);
         position: relative;
         &::before {
@@ -55,7 +55,7 @@ export default function ReusableComponent({
   id,
   componentType,
   width,
-  height,
+  minHeight,
   backgroundColor,
   textColor,
   padding,
@@ -94,7 +94,7 @@ export default function ReusableComponent({
       <StyledReusableComponent
         display={display}
         width={width}
-        height={height}
+        minheight={minHeight}
         position={position}
         backgroundcolor={backgroundColor}
         color={textColor}
@@ -124,7 +124,7 @@ export default function ReusableComponent({
         as="button"
         display={display}
         width={width}
-        height={height}
+        minheight={minHeight}
         position={position}
         backgroundcolor={backgroundColor}
         color={textColor}

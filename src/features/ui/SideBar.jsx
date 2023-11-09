@@ -3,7 +3,8 @@ import Form from './Form';
 import Heading from './Heading';
 
 const StyledSidebar = styled.aside`
-  grid-row: 1/ -1;
+  grid-column: 1;
+  grid-row: 1/ 2;
   background-color: var(--color-grey-100);
   padding: 1.2rem 1.4rem;
   border-right: 1px solid var(--color-grey-100);

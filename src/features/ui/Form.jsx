@@ -35,8 +35,8 @@ const displayTypes = [
 ];
 const positionTypes = ['static', 'relative', 'absolute', 'fixed'];
 const initialState = {
-  width: '100',
-  height: '100',
+  width: 'auto',
+  minHeight: '100',
   backgroundColor: '#FFFFFF',
   textColor: '#000000',
   componentType: 'div',
@@ -175,7 +175,7 @@ export default function Form({
       dispatch(editComponent({ id, data: updatedComponentData }));
     } else if (addingChild) {
       const componentId = generateUniqueId();
-      const data = { ...componentsStyles, id: componentId };
+      const data = { ...componentsStyles, id: componentId, parentId: id };
       dispatch(addChildToSection({ id, data }));
     } else {
       const componentId = generateUniqueId();
@@ -218,7 +218,6 @@ export default function Form({
               />
             </InputContainer>
             <input
-              id="width"
               type="range"
               name="width"
               min="0"
@@ -229,24 +228,23 @@ export default function Form({
           </HorizontalFormRow>
         </VerticalFormRow>
         <VerticalFormRow>
-          <label htmlFor="height">Height</label>
+          <label htmlFor="minHeight">Height</label>
           <HorizontalFormRow>
             <InputContainer>
               <Input
-                id="height"
+                id="minHeight"
                 type="text"
-                name="height"
-                value={componentsStyles.height}
+                name="minHeight"
+                value={componentsStyles.minHeight}
                 onChange={handleInputChange}
               />
             </InputContainer>
             <input
-              id="height"
               type="range"
-              name="height"
+              name="minHeight"
               min="0"
               max="1000"
-              value={componentsStyles.height}
+              value={componentsStyles.minHeight}
               onChange={handleInputChange}
             />
           </HorizontalFormRow>
