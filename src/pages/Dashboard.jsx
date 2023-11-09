@@ -3,9 +3,11 @@ import Sidebar from '../features/ui/SideBar';
 import Result from '../features/ui/Result';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import DraginSections from '../features/ui/DragingSections';
+import Header from '../features/ui/Header';
 const StyledDashboard = styled.div`
   display: grid;
-  grid-template-columns: 22rem 1fr;
+  grid-template-columns: 22rem 1fr 22rem;
   grid-template-rows: auto 1fr;
   height: 100vh;
   @media (max-width: 767px) {
@@ -20,30 +22,31 @@ const StyledDashboard = styled.div`
 `;
 const AnimatedDashboard = motion(StyledDashboard);
 export default function Dashboard() {
-  const [showSideBar, setShowSideBar] = useState(true);
+  const [showEditTools, setShowEditTools] = useState(true);
   return (
     <AnimatedDashboard
-      initial={{
-        opacity: 0,
-      }}
-      animate={{
-        opacity: 1,
-        transition: {
-          duration: 1,
-          delay: 0.5,
-        },
-      }}
-      exit={{
-        opacity: 0,
-      }}
+    initial={{
+      opacity: 0,
+    }}
+    animate={{
+      opacity: 1,
+    }}
+    exit={{
+      opacity: 0,
+    }}
     >
-      {showSideBar && (
+      {showEditTools && (
+        <>
         <Sidebar
-          showSideBar={showSideBar}
-          setShowSideBar={setShowSideBar}
         />
+      
+      
+      <DraginSections/>
+      </>
       )}
-      <Result />
+      <Header showEditTools={showEditTools} setShowEditTools={setShowEditTools}/>
+      <Result showEditTools={showEditTools}/>
+      
     </AnimatedDashboard>
   );
 }

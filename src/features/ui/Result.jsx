@@ -4,8 +4,13 @@ import styled from 'styled-components';
 import ReusableComponent from './ReusableComponent';
 
 const StyledResult = styled.section`
-  width: 90%;
-  margin: 0 auto;
+  grid-column: ${(props) => (props.editing ? '2' : '1/4')};
+  grid-row: 1/2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  margin: 5rem 0;
   @media (max-width: 767px) {
     width: 100%;
     overflow: auto;
@@ -14,12 +19,12 @@ const StyledResult = styled.section`
   }
 `;
 
-export default function Result() {
+export default function Result({showEditTools}) {
   const components = useSelector(
     (state) => state.components.sections
   );
   return (
-    <StyledResult>
+    <StyledResult editing={showEditTools}>
       {components.length > 0 &&
         components.map((component) => (
           <ReusableComponent

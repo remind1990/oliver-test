@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 const StyledAppLayout = styled.div`
   width: 100vw;
-  padding: 1rem;
   margin: 0 auto;
   overflow-y: auto;
 `;

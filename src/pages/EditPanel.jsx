@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, {useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,14 +8,18 @@ import Modal from '../features/ui/Modal';
 import ReusableComponent from '../features/ui/ReusableComponent';
 import PageNotFound from './PageNotFound';
 
+
 const StyledDiv = styled.div`
-  width: 100vw;
+  max-width: 100vw;
   height: 100dvh;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 22rem 1fr;
   grid-template-rows: auto 1fr;
   background-color: var(--color-indigo-100);
+  padding: 1.2rem;
+  gap: 1rem;
+  overflow: hidden;
   @media (max-width: 767px) {
     display: flex;
     flex-direction: column;
@@ -41,9 +45,17 @@ const EditPanel = () => {
   const navigate = useNavigate();
   const closeModal = () => {
     navigate('/dashboard');
-  };
+  }
 
-  if (!id || !component) return <PageNotFound />;
+  useEffect(() => {
+    if (!component) {
+      navigate('/dashboard');
+    }
+  }, [component, navigate]);
+  if (!component) {
+    return null; // This will prevent further rendering
+  }
+ 
   return (
     <AnimatedEditPanel
       initial={{
@@ -61,6 +73,7 @@ const EditPanel = () => {
         <ReusableComponent {...component} isEditing={true} />
       </DisplayComonentPanel>
     </AnimatedEditPanel>
+
   );
 };
 

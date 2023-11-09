@@ -1,12 +1,16 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Heading from './Heading';
 import Form from './Form';
 import { IoIosAddCircle } from 'react-icons/io';
 import { AiFillEdit } from 'react-icons/ai';
 import IconButton from './IconButton';
+import DeleteConfirmationModal from './DeleteConfirmationModal';
+import { useDispatch } from 'react-redux';
+import {deleteComponent} from '../componentsSlice'
+
 const StyledModal = styled.div`
   grid-row: 1/ -1;
   margin: 0 auto;
@@ -28,7 +32,11 @@ const StyledModal = styled.div`
 const Modal = ({ onClose, component }) => {
   const [addChild, setAddChild] = useState(false);
   const [editData, setEditData] = useState(false);
+  const navigate = useNavigate()
   const [showToolBar, setShowToolBar] = useState(true);
+  const dispatch = useDispatch()
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const { id } = useParams();
   function resetToolBar() {
     setAddChild(false);
@@ -39,6 +47,12 @@ const Modal = ({ onClose, component }) => {
     resetToolBar();
     onClose();
   };
+
+  const handleDelete = () => {
+    dispatch(deleteComponent(component))
+    setShowDeleteConfirmation(false);
+  };
+
   const maxChildrenLength = component.children.length === 5;
   return (
     <StyledModal as="aside">
@@ -57,7 +71,7 @@ const Modal = ({ onClose, component }) => {
                 icon={<IoIosAddCircle />}
               />
             )}
-          <IconButton
+              <IconButton
             onClick={() => {
               setEditData(true);
               setAddChild(false);
@@ -66,7 +80,20 @@ const Modal = ({ onClose, component }) => {
             text="Edit Component"
             icon={<AiFillEdit />}
           />
+        <IconButton
+        text="Delete element"
+        onClick={() => {
+          setShowDeleteConfirmation(true);
+        }}
+      />
+      {/* ... other content */}
+      <DeleteConfirmationModal
+        show={showDeleteConfirmation}
+        onClose={() => setShowDeleteConfirmation(false)}
+        onDelete={handleDelete}
+      />
         </>
+       
       )}
       {editData && (
         <Form
