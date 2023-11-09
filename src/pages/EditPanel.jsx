@@ -52,8 +52,9 @@ const EditPanel = () => {
       navigate('/dashboard');
     }
   }, [component, navigate]);
+
   if (!component) {
-    return null; // This will prevent further rendering
+    return null;
   }
  
   return (
