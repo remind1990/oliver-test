@@ -8,7 +8,7 @@ const StyledResult = styled.section`
   grid-row: 1/2;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: ${(props) => (props.editing ? '1rem' : '0')};
   padding: 1rem;
   margin: 5rem 0;
   @media (max-width: 767px) {
