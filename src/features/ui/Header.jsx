@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components'
 
 const StyledHeader = styled.nav`
@@ -9,8 +10,12 @@ const StyledHeader = styled.nav`
     background: var(--color-grey-100);
 `
 export default function Header({ showEditTools, setShowEditTools}) {
+  const components = useSelector(
+    (state) => state.components.sections
+  );
+   const noComponents =  components.length  === 0
   
   return (
-    <StyledHeader editing={showEditTools}><button onClick={() => setShowEditTools(state => !state)}>{showEditTools ? 'show result' : 'keep editing'}</button></StyledHeader>
+    <StyledHeader editing={showEditTools}><button disabled={noComponents} onClick={() => setShowEditTools(state => !state)}>{showEditTools ? 'show result' : 'keep editing'}</button></StyledHeader>
   )
 }

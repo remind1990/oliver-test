@@ -7,7 +7,7 @@ import DraginSections from '../features/ui/DragingSections';
 import Header from '../features/ui/Header';
 const StyledDashboard = styled.div`
   display: grid;
-  grid-template-columns: 22rem 1fr 22rem;
+  grid-template-columns: 22rem 1fr auto;
   grid-template-rows: auto 1fr;
   height: 100vh;
   @media (max-width: 767px) {
