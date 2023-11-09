@@ -6,7 +6,6 @@ import styled from 'styled-components';
 import { getComponentById } from '../features/componentsSlice';
 import Modal from '../features/ui/Modal';
 import ReusableComponent from '../features/ui/ReusableComponent';
-import PageNotFound from './PageNotFound';
 
 
 const StyledDiv = styled.div`

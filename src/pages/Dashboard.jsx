@@ -30,6 +30,7 @@ export default function Dashboard() {
     }}
     animate={{
       opacity: 1,
+      transition: { duration: 1, delay: 0.5 },
     }}
     exit={{
       opacity: 0,
